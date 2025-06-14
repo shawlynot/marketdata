@@ -2,6 +2,7 @@ package io.shawlynot.client;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.shawlynot.listener.ArrowListener;
 import io.shawlynot.listener.StdoutListener;
 
 import java.net.URI;
@@ -23,9 +24,10 @@ public class KrakenClient implements AutoCloseable {
     public KrakenClient() {
         client = HttpClient.newHttpClient().newWebSocketBuilder().buildAsync(
                 URI.create("wss://ws.kraken.com/v2"),
-                new StdoutListener()
+                new ArrowListener()
         ).thenCompose(webSocket -> webSocket.sendText(getSubscriptionRequest(), true));
     }
+
     private String getSubscriptionRequest() {
         try {
             return objectMapper.writeValueAsString(
