@@ -3,12 +3,15 @@
  */
 package io.shawlynot;
 
-public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
+import io.shawlynot.client.KrakenClient;
 
-    public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+import java.util.concurrent.ExecutionException;
+
+public class App {
+
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
+        try (var client = new KrakenClient()) {
+            client.await();
+        }
     }
 }
