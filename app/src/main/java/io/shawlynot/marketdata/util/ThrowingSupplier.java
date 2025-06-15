@@ -1,7 +1,5 @@
-package io.shawlynot.util;
+package io.shawlynot.marketdata.util;
 
-
-import java.util.function.Supplier;
 
 public interface ThrowingSupplier<T> {
 

@@ -1,4 +1,4 @@
-package io.shawlynot.model;
+package io.shawlynot.marketdata.model;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;

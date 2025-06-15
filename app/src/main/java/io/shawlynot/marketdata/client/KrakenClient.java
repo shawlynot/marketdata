@@ -1,8 +1,8 @@
-package io.shawlynot.client;
+package io.shawlynot.marketdata.client;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.shawlynot.listener.ProtobufParquetListener;
+import io.shawlynot.marketdata.listener.ProtobufParquetListener;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -40,9 +40,6 @@ public class KrakenClient implements AutoCloseable {
     }
 
     private final CountDownLatch running = new CountDownLatch(1);
-
-    private final ObjectMapper objectMapper = new ObjectMapper();
-
     private final WebSocket client;
 
     private KrakenClient(WebSocket client) {

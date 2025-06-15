@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package io.shawlynot.marketdata;
+
+option java_package = "io.shawlynot.marketdata.proto";
+option java_outer_classname = "CandleProtos";
+
+message Candle {
+  string symbol = 1;
+  int64 open = 2;
+  int64 high = 3;
+  int64 close = 4;
+  int64 interval_begin = 5; // as unix timestamp
+}

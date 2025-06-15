@@ -1,6 +1,4 @@
-package io.shawlynot.model;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
+package io.shawlynot.marketdata.model;
 
 import java.time.Instant;
 

@@ -1,4 +1,4 @@
-package io.shawlynot.listener;
+package io.shawlynot.marketdata.listener;
 
 import java.net.http.WebSocket;
 import java.util.concurrent.CompletionStage;
