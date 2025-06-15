@@ -2,8 +2,7 @@ package io.shawlynot.client;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.shawlynot.listener.ArrowListener;
-import io.shawlynot.listener.StdoutListener;
+import io.shawlynot.listener.ProtobufParquetListener;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -15,21 +14,18 @@ import java.util.concurrent.CountDownLatch;
 
 public class KrakenClient implements AutoCloseable {
 
-    private final CountDownLatch running = new CountDownLatch(1);
-
-    private final ObjectMapper objectMapper = new ObjectMapper();
-
-    private final CompletableFuture<WebSocket> client;
-
-    public KrakenClient() {
-        client = HttpClient.newHttpClient().newWebSocketBuilder().buildAsync(
+    public static CompletableFuture<KrakenClient> subscribe() {
+        return HttpClient.newHttpClient().newWebSocketBuilder().buildAsync(
                 URI.create("wss://ws.kraken.com/v2"),
-                new ArrowListener()
-        ).thenCompose(webSocket -> webSocket.sendText(getSubscriptionRequest(), true));
+                new ProtobufParquetListener()
+        ).thenCompose(webSocket -> webSocket.sendText(getSubscriptionRequest(), true))
+                .thenApply(KrakenClient::new);
+
     }
 
-    private String getSubscriptionRequest() {
+    private static String getSubscriptionRequest() {
         try {
+            final ObjectMapper objectMapper = new ObjectMapper();
             return objectMapper.writeValueAsString(
                     Map.of(
                             "method", "subscribe",
@@ -43,6 +39,16 @@ public class KrakenClient implements AutoCloseable {
         }
     }
 
+    private final CountDownLatch running = new CountDownLatch(1);
+
+    private final ObjectMapper objectMapper = new ObjectMapper();
+
+    private final WebSocket client;
+
+    private KrakenClient(WebSocket client) {
+        this.client = client;
+    }
+
     public boolean isRunning() {
         return running.getCount() > 0;
     }
@@ -54,6 +60,6 @@ public class KrakenClient implements AutoCloseable {
     @Override
     public void close() {
         running.countDown();
-        client.thenAccept(WebSocket::abort);
+        client.abort();
     }
 }

@@ -11,7 +11,7 @@ import java.util.concurrent.CompletionStage;
 
 import static io.shawlynot.util.ThrowingSupplier.wrap;
 
-public class ArrowListener implements WebSocket.Listener {
+public class ProtobufParquetListener implements WebSocket.Listener {
 
     private final ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false).registerModule(new JavaTimeModule());
 

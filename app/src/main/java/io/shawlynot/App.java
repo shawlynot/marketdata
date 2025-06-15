@@ -10,7 +10,7 @@ import java.util.concurrent.ExecutionException;
 public class App {
 
     public static void main(String[] args) throws ExecutionException, InterruptedException {
-        try (var client = new KrakenClient()) {
+        try (var client = KrakenClient.subscribe().get()) {
             client.await();
         }
     }
